@@ -82,3 +82,8 @@ async function fetchPastWinners() {
         `;
     }
 }
+// Make sure you are calling the function when the page loads
+document.addEventListener('DOMContentLoaded', () => {
+    // ... your other functions
+    loadWinnerList();
+});
