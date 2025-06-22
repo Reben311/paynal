@@ -42,7 +42,7 @@ async function fetchPastWinners() {
     if (!winnersListElement) return;
 
     // Replace with your actual Sanity project ID and dataset
-    const projectId = 'your_sanity_project_id';
+    const projectId = 'jbuh6e9h';
     const dataset = 'production';
     const query = encodeURIComponent('*[_type == "winner"] | order(drawingDate desc) {name, "drawingDate": drawingDate}');
     const url = `https://${projectId}.api.sanity.io/v1/data/query/${dataset}?query=${query}`;
