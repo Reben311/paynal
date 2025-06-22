@@ -37,49 +37,50 @@ function setupCountdown() {
 }
 
 // --- Fetch Past Winners from Sanity.io ---
-async function fetchPastWinners() {
-    const winnersListElement = document.getElementById('past-winners-list');
-    if (!winnersListElement) return;
+async function loadWinnerList() {
+    const listContainer = document.getElementById('past-winners-list');
+    if (!listContainer) return;
 
-    // Replace with your actual Sanity project ID and dataset
+    // --- No changes needed to the Sanity fetch logic ---
     const projectId = 'jbuh6e9h';
     const dataset = 'production';
-    const query = encodeURIComponent('*[_type == "winner"] | order(drawingDate desc) {name, "drawingDate": drawingDate}');
-    const url = `https://${projectId}.api.sanity.io/v1/data/query/${dataset}?query=${query}`;
-    
-    // Placeholder while loading
-    winnersListElement.innerHTML = `<div class="text-center text-zinc-400">Loading winners...</div>`;
+    // This is the corrected line
+    const query = encodeURIComponent('*[_type == "raffleWinner"] | order(winDate desc)');
+    const url = `https://${projectId}.api.sanity.io/v2021-10-21/data/query/${dataset}?query=${query}`;
 
     try {
         const response = await fetch(url);
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-        
         const { result } = await response.json();
 
+        listContainer.innerHTML = '';
+
         if (result && result.length > 0) {
-            winnersListElement.innerHTML = result.map(winner => `
-                <div class="flex justify-between items-center text-white p-3 bg-white/5 rounded-lg">
-                    <span>${winner.name}</span>
-                    <span class="text-sm text-zinc-400">${new Date(winner.drawingDate).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })} Winner</span>
-                </div>
-            `).join('');
+            result.forEach((winner, index) => {
+                const winnerItem = document.createElement('div');
+                
+                // 1. UPDATED STYLING FOR EACH WINNER ITEM
+                // This creates a cleaner look with a border, designed to be inside the main glass card.
+                // It adds a border to all items except the last one.
+                let classes = 'pt-4';
+                if (index > 0) {
+                    classes += ' border-t border-zinc-700/50';
+                }
+                winnerItem.className = classes;
+
+                // 2. UPDATED HTML STRUCTURE FOR EACH ITEM
+                winnerItem.innerHTML = `
+                    <p class="text-xl font-semibold text-white">${winner.name}</p>
+                    <p class="text-sm text-violet-300">${winner.month}</p>
+                `;
+
+                listContainer.appendChild(winnerItem);
+            });
         } else {
-            winnersListElement.innerHTML = `<div class="text-center text-zinc-400">No past winners to display yet.</div>`;
+            listContainer.innerHTML = '<p class="text-zinc-400 text-center">Past winners will be shown here!</p>';
         }
     } catch (error) {
-        console.error("Failed to fetch winners:", error);
-        winnersListElement.innerHTML = `<div class="text-center text-red-400">Could not load winner information.</div>`;
-        // As a fallback, you can show dummy data so the design doesn't look broken
-        winnersListElement.innerHTML += ` 
-            <div class="flex justify-between items-center text-white p-3 bg-white/5 rounded-lg mt-4">
-                <span>John D. (Sample)</span>
-                <span class="text-sm text-zinc-400">May 2024 Winner</span>
-            </div>
-            <div class="flex justify-between items-center text-white p-3 bg-white/5 rounded-lg mt-2">
-                <span>Jane S. (Sample)</span>
-                <span class="text-sm text-zinc-400">April 2024 Winner</span>
-            </div>
-        `;
+        console.error("Could not load winner list:", error);
+        listContainer.innerHTML = '<p class="text-red-500 text-center">Error loading winner list.</p>';
     }
 }
 // Make sure you are calling the function when the page loads
