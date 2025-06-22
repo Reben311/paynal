@@ -1,0 +1,99 @@
+/* Custom Styles for Raffle Page */
+
+.timer-box {
+    display: flex;
+    flex-direction: column;
+    padding: 0.75rem; /* Reduced padding slightly */
+    border-radius: 0.75rem;
+    width: 3rem; /* Reduced width */
+    align-items: center;
+}
+
+.timer-value {
+    font-size: 1.85rem; /* Reduced font size for mobile (30px) */
+    line-height: 2.25rem; /* Adjusted line height */
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    color: #ffffff;
+    font-variant-numeric: tabular-nums;
+    text-shadow: 0 0 10px rgba(93, 173, 226, 0.4);
+}
+
+/* On screens 768px and wider, make the timer larger */
+@media (min-width: 768px) {
+    .timer-box {
+        width: 6rem;
+        padding: 1rem;
+    }
+    .timer-value {
+        font-size: 3.75rem;
+        line-height: 1;
+    }
+}
+
+.timer-label {
+    font-size: 0.75rem; /* Reduced font size for mobile (12px) */
+    line-height: 1rem;
+    color: #a1a1aa;
+    text-transform: uppercase;
+    letter-spacing: 0.05em; /* Adjusted letter spacing */
+    margin-top: 0.25rem;
+}
+
+/* On screens 768px and wider, restore original label size */
+@media (min-width: 768px) {
+    .timer-label {
+        font-size: 1rem;
+        line-height: 1.5rem;
+        letter-spacing: 0.1em;
+    }
+}
+
+.timer-separator {
+    font-size: 1.875rem; /* Reduced font size to match timer value */
+    line-height: 2.25rem;
+    font-weight: 800;
+    color: #4b5563;
+    align-self: center; /* Center the separator vertically */
+    padding: 0 0.25rem;
+}
+
+/* On screens 768px and wider, make the separator larger */
+@media (min-width: 768px) {
+    .timer-separator {
+        font-size: 3.75rem;
+        line-height: 1;
+        padding: 0;
+    }
+}
+
+
+#past-winners-list {
+    max-height: 16rem; 
+    overflow-y: auto;
+    padding-right: 0.5rem; 
+}
+
+#past-winners-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+#past-winners-list::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+}
+
+#past-winners-list::-webkit-scrollbar-thumb {
+    background: rgba(93, 173, 226, 0.4);
+    border-radius: 10px;
+}
+
+#past-winners-list::-webkit-scrollbar-thumb:hover {
+    background: rgba(93, 173, 226, 0.7);
+}
+
+/* Make sure content sections are layered on top of the particles */
+main section {
+    position: relative;
+    z-index: 2;
+}
